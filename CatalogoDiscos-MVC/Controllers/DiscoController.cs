@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using negocio;
 using dominio;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CatalogoDiscos_MVC.Controllers
 {
@@ -23,16 +24,23 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Create
         public ActionResult Create()
         {
+            EstiloNegocio estiloNegocio = new EstiloNegocio();
+            TipoEdicionNegocio tipoNegocio = new TipoEdicionNegocio();
+
+            ViewBag.Estilo = new SelectList(estiloNegocio.listar(), "Id", "Descripcion");
+            ViewBag.TipoEdicion = new SelectList(tipoNegocio.listar(), "Id", "Descripcion");
             return View();
         }
 
         // POST: DiscoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Disco disco)
         {
             try
             {
+                DiscoNegocio negocio = new DiscoNegocio();
+                negocio.agregar(disco);
                 return RedirectToAction(nameof(Index));
             }
             catch
