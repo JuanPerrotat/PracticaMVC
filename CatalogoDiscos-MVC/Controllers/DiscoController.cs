@@ -52,16 +52,31 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            DiscoNegocio discoNegocio = new DiscoNegocio();
+            EstiloNegocio estiloNegocio = new EstiloNegocio();
+            TipoEdicionNegocio edicionNegocio = new TipoEdicionNegocio();
+
+            var disco = discoNegocio.listar().Find(d => d.Id == id);
+            var generos = estiloNegocio.listar();
+            var formatos = edicionNegocio.listar();
+
+            ViewBag.Generos = new SelectList(generos, "Id", "Descripcion", disco.Estilo.Id);
+            ViewBag.Formatos = new SelectList(formatos, "Id", "Descripcion", disco.TipoEdicion.Id);
+
+
+
+            return View(disco);
         }
 
         // POST: DiscoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Disco disco)
         {
             try
             {
+                DiscoNegocio discoNegocio = new DiscoNegocio();
+                discoNegocio.modificar(disco);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -73,7 +88,9 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            DiscoNegocio negocio = new DiscoNegocio();
+            var disco = negocio.listar().Find(d => d.Id == id);
+            return View(disco);
         }
 
         // POST: DiscoController/Delete/5
@@ -83,6 +100,8 @@ namespace CatalogoDiscos_MVC.Controllers
         {
             try
             {
+                DiscoNegocio discoNeg = new DiscoNegocio();
+                discoNeg.eliminar(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

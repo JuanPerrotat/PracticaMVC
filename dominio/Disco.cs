@@ -17,7 +17,7 @@ namespace dominio
         [Required (ErrorMessage ="Completar el campo.")]
         [DisplayName("Fecha de lanzamiento")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
 
         public DateTime FechaLanzamiento { get; set; }
         [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números enteros.")]
