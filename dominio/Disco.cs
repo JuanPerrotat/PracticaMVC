@@ -13,7 +13,7 @@ namespace dominio
         public int Id { get; set; }
         [Required(ErrorMessage = "Completar el campo.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage ="Máximo de caracteres.")]
-        public string? Titulo { get; set; }
+        public string Titulo { get; set; }
         [Required (ErrorMessage ="Completar el campo.")]
         [DisplayName("Fecha de lanzamiento")]
         [DataType(DataType.Date)]

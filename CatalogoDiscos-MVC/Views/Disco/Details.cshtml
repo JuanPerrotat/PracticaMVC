@@ -1,59 +1,57 @@
 @model dominio.Disco
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle";
 }
 
-<h1>Details</h1>
+<h1>Detalle de disco</h1>
+<h4>Disco</h4>
+<hr />
 
-<div>
-    <h4>Disco</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titulo)
+<div class="row">
+
+    <dl class="col">
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.Titulo):
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-md-4">
             @Html.DisplayFor(model => model.Titulo)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaLanzamiento)
+
+        <dt class="col-md-4">   
+            @Html.DisplayNameFor(model => model.FechaLanzamiento):
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-md-4">
             @Html.DisplayFor(model => model.FechaLanzamiento)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CantidadCanciones)
+
+        <dt class="col-md-4">
+            @Html.DisplayNameFor(model => model.CantidadCanciones):
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-md-4">
             @Html.DisplayFor(model => model.CantidadCanciones)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlTapa)
+        <dt class="col-md-4">
+            Género;
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UrlTapa)
+        <dd class="col-md-4">
+            @Html.DisplayFor(model => model.Estilo.Descripcion)
+        </dd>
+
+        <dt class="col-md-4">
+            Formato:
+        </dt>
+        <dd class="col-md-4">
+            @Html.DisplayFor(model => model.TipoEdicion.Descripcion)
         </dd>
     </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estilo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estilo)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoEdicion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoEdicion)
-        </dd>
-    </dl>
+    <div class="col-md-6">
+        <img src="@Model.UrlTapa" id="imgTapa" height="200" />
+    </div>
 </div>
+
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@Model?.Id">Modificar</a> |
+    <a asp-action="Index" class="btn btn-outline-primary">Volver</a>
 </div>

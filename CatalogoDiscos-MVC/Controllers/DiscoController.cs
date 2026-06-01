@@ -9,16 +9,28 @@ namespace CatalogoDiscos_MVC.Controllers
     public class DiscoController : Controller
     {
         // GET: DiscoController
-        public ActionResult Index()
+        public ActionResult Index(string filtro)
         {
             DiscoNegocio negocio = new DiscoNegocio();
-            return View(negocio.listar());
+            var discos = negocio.listar();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                discos = discos.FindAll(d => d.Titulo.ToUpper().Contains(filtro.ToUpper()));
+            }
+            ViewBag.filtro = filtro;
+
+            return View(discos);
         }
 
         // GET: DiscoController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            DiscoNegocio discoNegocio = new DiscoNegocio();
+
+            var disco = discoNegocio.listar().Find(d => d.Id == id);
+            
+            return View(disco);
         }
 
         // GET: DiscoController/Create
