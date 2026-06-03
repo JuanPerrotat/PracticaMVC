@@ -8,11 +8,21 @@ namespace CatalogoDiscos_MVC.Controllers
 {
     public class DiscoController : Controller
     {
+        private DiscoNegocio _negocio;
+        private EstiloNegocio _estiloNegocio;
+        private TipoEdicionNegocio _tipoEdicionNegocio;
+
+        public DiscoController(DiscoNegocio negocio, EstiloNegocio estiloNegocio, TipoEdicionNegocio tipoEdicionNegocio)
+        {
+            _negocio = negocio;
+            _estiloNegocio = estiloNegocio;
+            _tipoEdicionNegocio = tipoEdicionNegocio;
+        }
+
         // GET: DiscoController
         public ActionResult Index(string filtro)
         {
-            DiscoNegocio negocio = new DiscoNegocio();
-            var discos = negocio.listar();
+            var discos = _negocio.listar();
 
             if (!string.IsNullOrEmpty(filtro))
             {
@@ -26,21 +36,18 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Details/5
         public ActionResult Details(int id)
         {
-            DiscoNegocio discoNegocio = new DiscoNegocio();
 
-            var disco = discoNegocio.listar().Find(d => d.Id == id);
-            
+
+            var disco = _negocio.listar().Find(d => d.Id == id);
+
             return View(disco);
         }
 
         // GET: DiscoController/Create
         public ActionResult Create()
         {
-            EstiloNegocio estiloNegocio = new EstiloNegocio();
-            TipoEdicionNegocio tipoNegocio = new TipoEdicionNegocio();
-
-            ViewBag.Estilo = new SelectList(estiloNegocio.listar(), "Id", "Descripcion");
-            ViewBag.TipoEdicion = new SelectList(tipoNegocio.listar(), "Id", "Descripcion");
+            ViewBag.Estilo = new SelectList(_estiloNegocio.listar(), "Id", "Descripcion");
+            ViewBag.TipoEdicion = new SelectList(_tipoEdicionNegocio.listar(), "Id", "Descripcion");
             return View();
         }
 
@@ -51,8 +58,7 @@ namespace CatalogoDiscos_MVC.Controllers
         {
             try
             {
-                DiscoNegocio negocio = new DiscoNegocio();
-                negocio.agregar(disco);
+                _negocio.agregar(disco);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -64,18 +70,13 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Edit/5
         public ActionResult Edit(int id)
         {
-            DiscoNegocio discoNegocio = new DiscoNegocio();
-            EstiloNegocio estiloNegocio = new EstiloNegocio();
-            TipoEdicionNegocio edicionNegocio = new TipoEdicionNegocio();
 
-            var disco = discoNegocio.listar().Find(d => d.Id == id);
-            var generos = estiloNegocio.listar();
-            var formatos = edicionNegocio.listar();
+            var disco = _negocio.listar().Find(d => d.Id == id);
+            var generos = _estiloNegocio.listar();
+            var formatos = _tipoEdicionNegocio.listar();
 
             ViewBag.Generos = new SelectList(generos, "Id", "Descripcion", disco.Estilo.Id);
             ViewBag.Formatos = new SelectList(formatos, "Id", "Descripcion", disco.TipoEdicion.Id);
-
-
 
             return View(disco);
         }
@@ -87,8 +88,7 @@ namespace CatalogoDiscos_MVC.Controllers
         {
             try
             {
-                DiscoNegocio discoNegocio = new DiscoNegocio();
-                discoNegocio.modificar(disco);
+                _negocio.modificar(disco);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -100,8 +100,7 @@ namespace CatalogoDiscos_MVC.Controllers
         // GET: DiscoController/Delete/5
         public ActionResult Delete(int id)
         {
-            DiscoNegocio negocio = new DiscoNegocio();
-            var disco = negocio.listar().Find(d => d.Id == id);
+            var disco = _negocio.listar().Find(d => d.Id == id);
             return View(disco);
         }
 
@@ -112,8 +111,7 @@ namespace CatalogoDiscos_MVC.Controllers
         {
             try
             {
-                DiscoNegocio discoNeg = new DiscoNegocio();
-                discoNeg.eliminar(id);
+                _negocio.eliminar(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

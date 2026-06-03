@@ -1,7 +1,13 @@
+using negocio;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<DiscoNegocio>();
+builder.Services.AddScoped<EstiloNegocio>();
+builder.Services.AddScoped<TipoEdicionNegocio>();
 
 var app = builder.Build();
 
